@@ -1,4 +1,4 @@
-package com.hong.repository.controller;
+package com.hong.services.controller;
 
 import com.hong.repository.entity.Student;
 import com.hong.repository.mapper.StudentMapper;

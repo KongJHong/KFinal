@@ -13,6 +13,7 @@
         <module>kblog_auth_server</module>
         <module>kblog_front_service</module>
         <module>kblog_repository</module>
+        <module>kblog_services</module>
     </modules>
 
     <parent>
@@ -29,6 +30,24 @@
                 <artifactId>lombok</artifactId>
                 <version>1.16.18</version>
                 <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>3.0.1</version>
+            </dependency>
+
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>5.1.47</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid</artifactId>
+                <version>1.0.29</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

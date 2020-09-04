@@ -22,9 +22,6 @@ import java.io.Serializable;
 @TableName("tb_test_student")
 public class Student extends AbstractBaseEntity implements Serializable {
 
-    @TableId(value = "id", type = IdType.ID_WORKER)
-    private Long id;
-
     @TableField("name")
     private String name;
 
