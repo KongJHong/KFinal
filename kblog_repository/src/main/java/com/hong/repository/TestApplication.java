@@ -1,5 +1,6 @@
-package com.hong;
+package com.hong.repository;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -10,6 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * Description     :
  */
 @SpringBootApplication
+@MapperScan("com.hong.repository.mapper")
 public class TestApplication {
     public static void main(String[] args) {
         SpringApplication.run(TestApplication.class, args);
