@@ -1,4 +1,4 @@
-package com.kblog.common.error;
+package com.hong.common.error;
 
 /**
  * @Author : KongJHong

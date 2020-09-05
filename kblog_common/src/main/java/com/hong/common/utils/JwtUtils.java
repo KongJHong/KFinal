@@ -1,6 +1,6 @@
-package com.kblog.common.utils;
+package com.hong.common.utils;
 
-import com.itheima.domain.Payload;
+import com.hong.common.domain.Payload;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;

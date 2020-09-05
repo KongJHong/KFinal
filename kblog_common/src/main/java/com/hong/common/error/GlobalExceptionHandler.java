@@ -1,7 +1,9 @@
-package com.kblog.common.error;
+package com.hong.common.error;
 
-import com.kblog.common.json.JsonResult;
+import com.hong.common.json.JsonResult;
+import com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -23,6 +25,14 @@ public class GlobalExceptionHandler {
         log.error("错误代码:{} , {}",ex.getErrCode(),ex.getErrMsg());
         ex.printStackTrace();
         return JsonResult.error(ex);
+    }
+
+    // 捕捉SQL语法异常
+    @ExceptionHandler(BadSqlGrammarException.class)
+    @ResponseBody
+    public JsonResult handleSQLSyntaxException(BadSqlGrammarException ex) {
+        log.error("SQL语法错误:", ex);
+        return JsonResult.error(20002, "SQL语法有误");
     }
 
     //放在最下面，捕获所有的Exception

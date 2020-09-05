@@ -1,4 +1,4 @@
-package com.kblog.common.utils;
+package com.hong.common.utils;
 
 import java.io.File;
 import java.io.IOException;

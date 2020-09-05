@@ -1,4 +1,4 @@
-package com.kblog.common.utils;
+package com.hong.common.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;

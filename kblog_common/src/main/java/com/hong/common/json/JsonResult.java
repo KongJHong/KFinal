@@ -1,6 +1,6 @@
-package com.kblog.common.json;
+package com.hong.common.json;
 
-import com.kblog.common.error.CommonError;
+import com.hong.common.error.CommonError;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -11,7 +11,6 @@
     <modules>
         <module>kblog_common</module>
         <module>kblog_auth_server</module>
-        <module>kblog_front_service</module>
         <module>kblog_repository</module>
         <module>kblog_services</module>
     </modules>
