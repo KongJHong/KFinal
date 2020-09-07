@@ -11,5 +11,34 @@
 
     <artifactId>kblog_auth_server</artifactId>
 
+    <dependencies>
+         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
 
+          <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.hong</groupId>
+            <artifactId>kblog_common</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.hong</groupId>
+            <artifactId>kblog_repository</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+         <!-- 解决idea springboot auto config 报红的错误-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+    </dependencies>
 </project>

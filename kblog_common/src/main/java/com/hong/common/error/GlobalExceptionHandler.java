@@ -1,7 +1,6 @@
 package com.hong.common.error;
 
 import com.hong.common.json.JsonResult;
-import com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.web.bind.annotation.ControllerAdvice;

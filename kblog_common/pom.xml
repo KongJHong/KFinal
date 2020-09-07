@@ -45,6 +45,8 @@
             <scope>provided</scope>
         </dependency>
 
+
+
         <!-- 日志包 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -67,11 +69,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
         </dependency>
 
         <!-- *******************swagger******************* -->
