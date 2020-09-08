@@ -2,6 +2,9 @@ package com.hong.auth.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hong.auth.config.RsaKeyProperties;
+import com.hong.common.annotation.ResponseResult;
+import com.hong.common.error.CommonError;
+import com.hong.common.error.CommonException;
 import com.hong.common.error.EmCommonError;
 import com.hong.common.json.JsonResult;
 import com.hong.common.utils.JwtUtils;
@@ -57,27 +60,28 @@ public class JwtLoginFilter extends UsernamePasswordAuthenticationFilter {
             return authenticationManager.authenticate(authRequest);
         } catch (Exception e) {
             // TODO 返回改进
-           try {
-                response.setContentType("application/json;charset=utf-8");
-                response.setStatus(HttpServletResponse.SC_OK);
-                PrintWriter out =  response.getWriter();
-                out.write(new ObjectMapper().writeValueAsString(JsonResult.ok(EmCommonError.USER_LOGIN_ERROR)));
-                out.flush();
-                out.close();
-            }catch(Exception outEx) {
-                outEx.printStackTrace();
-            }
+//           try {
+//                response.setContentType("application/json;charset=utf-8");
+//                response.setStatus(HttpServletResponse.SC_OK);
+//                PrintWriter out =  response.getWriter();
+//                out.write(new ObjectMapper().writeValueAsString(JsonResult.failure(EmCommonError.USER_LOGIN_ERROR)));
+//                out.flush();
+//                out.close();
+//            }catch(Exception outEx) {
+//                outEx.printStackTrace();
+//            }
 
            // 返回错误信息
 
-            throw new RuntimeException(e);
-
+//            throw new RuntimeException(e);
+            throw new CommonException(EmCommonError.USER_LOGIN_ERROR);
         }
     }
 
 
     @Override
     @SuppressWarnings("unchecked")
+    @ResponseResult
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
         SysUser sysUser = new SysUser();
         sysUser.setUsername(authResult.getName());
@@ -89,7 +93,7 @@ public class JwtLoginFilter extends UsernamePasswordAuthenticationFilter {
             // TODO 返回改为Json
             response.setContentType("application/json;charset=utf-8");
             response.setStatus(HttpServletResponse.SC_OK);
-            out.write(new ObjectMapper().writeValueAsString(JsonResult.ok(EmCommonError.USER_LOGIN_SUCCESS)));
+            out.write(new ObjectMapper().writeValueAsString(JsonResult.success(null)));
             out.flush();
         }catch(Exception outEx) {
             outEx.printStackTrace();

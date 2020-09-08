@@ -76,7 +76,7 @@ public class JwtVerifyFilter extends BasicAuthenticationFilter {
 //        resultMap.put("code", HttpServletResponse.SC_FORBIDDEN);
 //        resultMap.put("msg","请登录");
 
-        out.write(new ObjectMapper().writeValueAsString(JsonResult.error(EmCommonError.USER_NOT_LOGIN)));
+        out.write(new ObjectMapper().writeValueAsString(JsonResult.failure(EmCommonError.USER_NOT_LOGIN)));
 
 
         out.flush();
@@ -88,7 +88,7 @@ public class JwtVerifyFilter extends BasicAuthenticationFilter {
         response.setStatus(HttpServletResponse.SC_OK);
         PrintWriter out =  response.getWriter();
 
-        out.write(new ObjectMapper().writeValueAsString(JsonResult.error(EmCommonError.USER_LOGIN_EXPIRE)));
+        out.write(new ObjectMapper().writeValueAsString(JsonResult.failure(EmCommonError.USER_LOGIN_EXPIRE)));
 
         out.flush();
         out.close();

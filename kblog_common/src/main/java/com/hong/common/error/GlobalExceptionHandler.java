@@ -23,7 +23,7 @@ public class GlobalExceptionHandler {
     public JsonResult handlerBusinessException(CommonException ex) {
         log.error("错误代码:{} , {}",ex.getErrCode(),ex.getErrMsg());
         ex.printStackTrace();
-        return JsonResult.error(ex);
+        return JsonResult.failure(ex);
     }
 
     // 捕捉SQL语法异常
@@ -31,7 +31,7 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public JsonResult handleSQLSyntaxException(BadSqlGrammarException ex) {
         log.error("SQL语法错误:", ex);
-        return JsonResult.error(20002, "SQL语法有误");
+        return JsonResult.failure(EmCommonError.SQL_SYNTAX_ERROR);
     }
 
     //放在最下面，捕获所有的Exception
@@ -39,6 +39,6 @@ public class GlobalExceptionHandler {
     @ResponseBody //为了返回数据
      public JsonResult doError(Exception ex){
         log.error("发生未捕获异常:",ex);
-        return JsonResult.error(20001,"发生未捕获异常");
+        return JsonResult.failure(EmCommonError.UNKNOWN_ERROR);
     }
 }

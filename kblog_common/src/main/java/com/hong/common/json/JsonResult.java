@@ -1,8 +1,13 @@
 package com.hong.common.json;
 
 import com.hong.common.error.CommonError;
+import com.hong.common.error.EmCommonError;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.validation.annotation.Validated;
+
+import javax.annotation.Nullable;
+import java.io.Serializable;
 
 /**
  * @Author : KongJHong
@@ -12,7 +17,9 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class JsonResult<T> {
+public class JsonResult<T> implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private T data;
 
@@ -32,19 +39,27 @@ public class JsonResult<T> {
         this.data = jsonData;
     }
 
-     public static<T> JsonResult ok(CommonError commonError){
+    /**
+     * 名称不清晰，不建议使用，建议用success或failure
+     */
+    @Deprecated
+    public static<T> JsonResult ok(CommonError commonError){
         return data(commonError,null);
     }
 
-    public static<T> JsonResult error(CommonError commonError){
+    public static<T> JsonResult success(@Nullable T data){
+        return data(EmCommonError.SUCCESS,data);
+    }
+
+    public static<T> JsonResult failure(CommonError commonError){
         return data(commonError,null);
     }
 
-    public static<T> JsonResult error(Integer code,String msg){
-        return new JsonResult(code,msg);
+    public static<T> JsonResult failure(CommonError commonError, @Nullable T jsonData){
+        return data(commonError,jsonData);
     }
 
-    public static<T> JsonResult data(CommonError commonError,T jsonData){
+    private static<T> JsonResult data(CommonError commonError, @Nullable T jsonData){
         JsonResult jsonResult = new JsonResult();
         jsonResult.msg = commonError.getErrMsg();
         jsonResult.code = commonError.getErrCode();
