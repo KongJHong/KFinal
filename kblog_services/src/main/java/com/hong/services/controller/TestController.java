@@ -1,5 +1,6 @@
 package com.hong.services.controller;
 
+import com.hong.common.json.JsonResult;
 import com.hong.repository.entity.Student;
 import com.hong.repository.mapper.StudentMapper;
 import io.swagger.annotations.Api;
@@ -42,5 +43,9 @@ public class TestController {
         return students;
     }
 
+    @RequestMapping("/findAll")
+    public JsonResult findAll() {
+        return JsonResult.success("产品列表查询成功");
+    }
 
 }

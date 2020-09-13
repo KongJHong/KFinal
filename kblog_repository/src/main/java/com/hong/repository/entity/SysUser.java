@@ -67,6 +67,6 @@ public class SysUser extends AbstractBaseEntity implements UserDetails {
     @Override
     @JsonIgnore
     public boolean isEnabled() {
-        return true;
+        return getDeleted() == 0;
     }
 }

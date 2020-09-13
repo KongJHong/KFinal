@@ -32,3 +32,7 @@ mybatis-plus:
       # 逻辑删除
       logic-delete-value: 1
       logic-not-delete-value: 0
+
+rsa:
+  key:
+    pubKeyFile: D:\auth_key\id_key_rsa.pub

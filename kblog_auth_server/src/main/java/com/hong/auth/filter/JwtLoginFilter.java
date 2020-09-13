@@ -8,6 +8,7 @@ import com.hong.common.error.CommonException;
 import com.hong.common.error.EmCommonError;
 import com.hong.common.json.JsonResult;
 import com.hong.common.utils.JwtUtils;
+import com.hong.repository.dto.UserDto;
 import com.hong.repository.entity.SysRole;
 import com.hong.repository.entity.SysUser;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -26,6 +27,7 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @Author : KongJHong
@@ -60,16 +62,16 @@ public class JwtLoginFilter extends UsernamePasswordAuthenticationFilter {
             return authenticationManager.authenticate(authRequest);
         } catch (Exception e) {
             // TODO 返回改进
-//           try {
-//                response.setContentType("application/json;charset=utf-8");
-//                response.setStatus(HttpServletResponse.SC_OK);
-//                PrintWriter out =  response.getWriter();
-//                out.write(new ObjectMapper().writeValueAsString(JsonResult.failure(EmCommonError.USER_LOGIN_ERROR)));
-//                out.flush();
-//                out.close();
-//            }catch(Exception outEx) {
+           try {
+                response.setContentType("application/json;charset=utf-8");
+                response.setStatus(HttpServletResponse.SC_OK);
+                PrintWriter out =  response.getWriter();
+                out.write(new ObjectMapper().writeValueAsString(JsonResult.failure(EmCommonError.USER_LOGIN_ERROR)));
+                out.flush();
+                out.close();
+            }catch(Exception outEx) {
 //                outEx.printStackTrace();
-//            }
+            }
 
            // 返回错误信息
 
@@ -93,11 +95,19 @@ public class JwtLoginFilter extends UsernamePasswordAuthenticationFilter {
             // TODO 返回改为Json
             response.setContentType("application/json;charset=utf-8");
             response.setStatus(HttpServletResponse.SC_OK);
-            out.write(new ObjectMapper().writeValueAsString(JsonResult.success(null)));
+            out.write(new ObjectMapper().writeValueAsString(JsonResult.success(cultivateUserDto(sysUser))));
             out.flush();
         }catch(Exception outEx) {
             outEx.printStackTrace();
         }
+    }
+
+    private UserDto cultivateUserDto(SysUser sysUser) {
+        UserDto userDto = new UserDto();
+//        userDto.setId(sysUser.getId().toString());
+        userDto.setUsername(sysUser.getUsername());
+        userDto.setRoles(sysUser.getRoles().stream().map(SysRole::getRoleName).collect(Collectors.toList()));
+        return userDto;
     }
 
 }

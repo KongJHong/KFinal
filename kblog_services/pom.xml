@@ -41,6 +41,13 @@
 <!--            <groupId>com.alibaba</groupId>-->
 <!--            <artifactId>druid</artifactId>-->
 <!--        </dependency>-->
+
+         <!-- 解决idea springboot auto config 报红的错误-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
     </dependencies>
 
 </project>

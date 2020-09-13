@@ -5,6 +5,7 @@ import com.hong.auth.filter.JwtVerifyFilter;
 import com.hong.auth.service.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -57,6 +58,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         // 释放静态资源，指定路径拦截规则，指定自定义认证页面，指定退出认证配置，csrf配置
         http.csrf().disable()
+                .cors().disable()
                 .authorizeRequests()
                 .antMatchers("/product").hasAnyRole("USER")
                 .anyRequest()
