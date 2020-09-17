@@ -16,7 +16,7 @@ import java.util.UUID;
  * @author: 黑马程序员
  * 生成token以及校验token相关方法
  */
-public class JwtUtils {
+public class JwtUtil {
 
     private static final String JWT_PAYLOAD_USER_KEY = "user";
 
@@ -30,7 +30,7 @@ public class JwtUtils {
      */
     public static String generateTokenExpireInMinutes(Object userInfo, PrivateKey privateKey, int expire) {
         return Jwts.builder()
-                .claim(JWT_PAYLOAD_USER_KEY, JsonUtils.toString(userInfo))
+                .claim(JWT_PAYLOAD_USER_KEY, JsonUtil.toString(userInfo))
                 .setId(createJTI())
                 .setExpiration(DateTime.now().plusMinutes(expire).toDate())
                 .signWith(privateKey, SignatureAlgorithm.RS256)
@@ -47,7 +47,7 @@ public class JwtUtils {
      */
     public static String generateTokenExpireInSeconds(Object userInfo, PrivateKey privateKey, int expire) {
         return Jwts.builder()
-                .claim(JWT_PAYLOAD_USER_KEY, JsonUtils.toString(userInfo))
+                .claim(JWT_PAYLOAD_USER_KEY, JsonUtil.toString(userInfo))
                 .setId(createJTI())
                 .setExpiration(DateTime.now().plusSeconds(expire).toDate())
                 .signWith(privateKey, SignatureAlgorithm.RS256)
@@ -81,7 +81,7 @@ public class JwtUtils {
         Claims body = claimsJws.getBody();
         Payload<T> claims = new Payload<>();
         claims.setId(body.getId());
-        claims.setUserInfo(JsonUtils.toBean(body.get(JWT_PAYLOAD_USER_KEY).toString(), userType));
+        claims.setUserInfo(JsonUtil.toBean(body.get(JWT_PAYLOAD_USER_KEY).toString(), userType));
         claims.setExpiration(body.getExpiration());
         return claims;
     }

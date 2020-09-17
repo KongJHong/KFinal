@@ -5,20 +5,12 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
-
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Enumeration;
-
-/**
- * @Author : KongJHong
- * @Date : 2020-09-12 22:48
- * @Version : 1.0
- * Description     :
- */
 
 /**
  * @author Bailin

@@ -1,6 +1,6 @@
 package com.hong.auth.config;
 
-import com.hong.common.utils.RsaUtils;
+import com.hong.common.utils.RsaUtil;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import javax.annotation.PostConstruct;
@@ -25,8 +25,8 @@ public class RsaKeyProperties {
 
     @PostConstruct // 在这个bean对象构造完之后调用，这样能保证pubKeyFile和priKeyFile是有值的
     public void createRsaKey() throws Exception {
-        publicKey = RsaUtils.getPublicKey(pubKeyFile);
-        privateKey = RsaUtils.getPrivateKey(priKeyFile);
+        publicKey = RsaUtil.getPublicKey(pubKeyFile);
+        privateKey = RsaUtil.getPrivateKey(priKeyFile);
     }
 
     public PublicKey getPublicKey(){

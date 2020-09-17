@@ -12,7 +12,7 @@ import java.util.Base64;
 /**
  * @description RSA工具
  */
-public class RsaUtils {
+public class RsaUtil {
 
     private static final int DEFAULT_KEY_SIZE = 2048;
     /**

@@ -9,11 +9,10 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-/**
- * @author: 黑马程序员
- **/
+
 @Slf4j
-public class JsonUtils {
+@SuppressWarnings("all")
+public class JsonUtil {
 
     private static final ObjectMapper mapper = new ObjectMapper();
 

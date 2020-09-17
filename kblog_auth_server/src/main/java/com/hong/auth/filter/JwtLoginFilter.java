@@ -3,11 +3,10 @@ package com.hong.auth.filter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hong.auth.config.RsaKeyProperties;
 import com.hong.common.annotation.ResponseResult;
-import com.hong.common.error.CommonError;
 import com.hong.common.error.CommonException;
 import com.hong.common.error.EmCommonError;
 import com.hong.common.json.JsonResult;
-import com.hong.common.utils.JwtUtils;
+import com.hong.common.utils.JwtUtil;
 import com.hong.repository.dto.UserDto;
 import com.hong.repository.entity.SysRole;
 import com.hong.repository.entity.SysUser;
@@ -24,9 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -88,7 +85,7 @@ public class JwtLoginFilter extends UsernamePasswordAuthenticationFilter {
         SysUser sysUser = new SysUser();
         sysUser.setUsername(authResult.getName());
         sysUser.setRoles((List<SysRole>) authResult.getAuthorities());
-        String token = JwtUtils.generateTokenExpireInMinutes(sysUser, prop.getPrivateKey(), 24 * 60);
+        String token = JwtUtil.generateTokenExpireInMinutes(sysUser, prop.getPrivateKey(), 24 * 60);
         response.addHeader("Authorization", "Bearer " + token);
 
         try(PrintWriter out =  response.getWriter()) {

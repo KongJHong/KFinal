@@ -1,6 +1,6 @@
 package com.hong.services.config;
 
-import com.hong.common.utils.RsaUtils;
+import com.hong.common.utils.RsaUtil;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import javax.annotation.PostConstruct;
@@ -23,7 +23,7 @@ public class RsaKeyProperties {
 
     @PostConstruct // 在这个spring对象构造完成之后执行
     public void createRsaKey() throws Exception {
-        publicKey = RsaUtils.getPublicKey(pubKeyFile);
+        publicKey = RsaUtil.getPublicKey(pubKeyFile);
     }
 
     public PublicKey getPublicKey() {

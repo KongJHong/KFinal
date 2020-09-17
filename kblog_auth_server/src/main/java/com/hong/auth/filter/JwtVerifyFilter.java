@@ -5,12 +5,11 @@ import com.hong.auth.config.RsaKeyProperties;
 import com.hong.common.domain.Payload;
 import com.hong.common.error.EmCommonError;
 import com.hong.common.json.JsonResult;
-import com.hong.common.utils.JwtUtils;
+import com.hong.common.utils.JwtUtil;
 import com.hong.repository.entity.SysUser;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import javax.servlet.FilterChain;
@@ -19,8 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @Author : KongJHong
@@ -53,7 +50,7 @@ public class JwtVerifyFilter extends BasicAuthenticationFilter {
             String token = header.replace("Bearer ","");
             // 验证token是否正确 过期
             try {
-                Payload<SysUser> payload = JwtUtils.getInfoFromToken(token, prop.getPublicKey(), SysUser.class);
+                Payload<SysUser> payload = JwtUtil.getInfoFromToken(token, prop.getPublicKey(), SysUser.class);
                 SysUser user = payload.getUserInfo();
                 if (user != null) {
                     UsernamePasswordAuthenticationToken authResult = new UsernamePasswordAuthenticationToken(user.getUsername(), null, user.getAuthorities());

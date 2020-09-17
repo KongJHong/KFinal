@@ -4,12 +4,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hong.common.domain.Payload;
 import com.hong.common.error.EmCommonError;
 import com.hong.common.json.JsonResult;
-import com.hong.common.utils.JwtUtils;
+import com.hong.common.utils.JwtUtil;
 import com.hong.repository.entity.SysUser;
 import com.hong.services.config.RsaKeyProperties;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
@@ -19,8 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @Author : KongJHong
@@ -66,7 +63,7 @@ public class JwtVerifyFilter extends BasicAuthenticationFilter {
             // 如果携带了正确格式的token
             String token = header.replace("Bearer ","");
             // 验证token是否正确
-            Payload<SysUser> payload = JwtUtils.getInfoFromToken(token, prop.getPublicKey(), SysUser.class);
+            Payload<SysUser> payload = JwtUtil.getInfoFromToken(token, prop.getPublicKey(), SysUser.class);
             SysUser user = payload.getUserInfo();
             if (user != null) {
                 UsernamePasswordAuthenticationToken authResult = new UsernamePasswordAuthenticationToken(user.getUsername(), null, user.getAuthorities());

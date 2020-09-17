@@ -45,6 +45,17 @@
             <scope>provided</scope>
         </dependency>
 
+        <dependency>
+           <groupId>org.springframework.boot</groupId>
+           <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+        <!-- 使用连接池需要添加的依赖，不开可以不加 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+             <artifactId>commons-pool2</artifactId>
+        </dependency>
+
+
 
 
         <!-- 日志包 -->
