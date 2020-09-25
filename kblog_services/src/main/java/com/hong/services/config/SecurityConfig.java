@@ -1,5 +1,6 @@
 package com.hong.services.config;
 
+import com.hong.services.consts.Consts;
 import com.hong.services.filter.JwtVerifyFilter;
 import com.hong.services.filter.ReWriteAccessDenyFilter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     final private ReWriteAccessDenyFilter reWriteAccessDenyFilter;
 
+
     public SecurityConfig(RsaKeyProperties prop, ReWriteAccessDenyFilter reWriteAccessDenyFilter) {
         this.prop = prop;
         this.reWriteAccessDenyFilter = reWriteAccessDenyFilter;
@@ -37,7 +39,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
          http.csrf()
                  .disable()
                  .authorizeRequests()
-                 .antMatchers("/test").hasAnyRole("USER")
+                 .antMatchers(Consts.whiteList).anonymous()  // 前端页面，不拦截
+                 .antMatchers("/admin/**").hasRole("ADMIN")
                  .anyRequest()
                  .authenticated()
                  .and()

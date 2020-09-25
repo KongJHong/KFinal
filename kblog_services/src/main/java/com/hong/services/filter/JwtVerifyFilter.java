@@ -2,11 +2,14 @@ package com.hong.services.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hong.common.domain.Payload;
+import com.hong.common.error.CommonException;
 import com.hong.common.error.EmCommonError;
 import com.hong.common.json.JsonResult;
+import com.hong.common.utils.HttpUtil;
 import com.hong.common.utils.JwtUtil;
 import com.hong.repository.entity.SysUser;
 import com.hong.services.config.RsaKeyProperties;
+import com.hong.services.consts.Consts;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -41,18 +44,18 @@ public class JwtVerifyFilter extends BasicAuthenticationFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
 
         String header = request.getHeader("Authorization");
-
-		if (header == null || !header.startsWith("Bearer ")) {
+        /**
+         *
+         */
+        if (HttpUtil.isWhiteList(request.getRequestURI(), Consts.whiteList)) {
+             chain.doFilter(request, response);
+        }else if (header == null || !header.startsWith("Bearer ")) {
 		    // 如果没有认证，提示已登录
 		    // 过滤器链不能落下
 		    chain.doFilter(request, response);
             response.setContentType("application/json;charset=utf-8");
             response.setStatus(HttpServletResponse.SC_OK);
             PrintWriter out =  response.getWriter();
-//            Map<String, Object> resultMap = new HashMap<>();
-//            resultMap.put("code", HttpServletResponse.SC_FORBIDDEN);
-//            resultMap.put("msg","请登录");
-
             out.write(new ObjectMapper().writeValueAsString(JsonResult.failure(EmCommonError.USER_ACCESS_DENIES)));
 
 

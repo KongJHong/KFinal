@@ -1,7 +1,11 @@
 package com.hong.services.controller;
 
 import com.hong.common.json.JsonResult;
+import com.hong.repository.entity.Article;
+import com.hong.repository.entity.Category;
 import com.hong.repository.entity.Student;
+import com.hong.repository.mapper.ArticleMapper;
+import com.hong.repository.mapper.CategoryMapper;
 import com.hong.repository.mapper.StudentMapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -26,6 +30,12 @@ public class TestController {
     @Autowired
     private StudentMapper studentMapper;
 
+    @Autowired
+    private ArticleMapper articleMapper;
+
+    @Autowired
+    private CategoryMapper categoryMapper;
+
     @GetMapping("/save")
     public String save() {
         Student student = new Student();
@@ -43,9 +53,10 @@ public class TestController {
         return students;
     }
 
-    @RequestMapping("/findAll")
+    @GetMapping("/findAll")
     public JsonResult findAll() {
-        return JsonResult.success("产品列表查询成功");
+        Article article = articleMapper.findById(1L);
+        return JsonResult.success(article);
     }
 
 }
