@@ -20,7 +20,7 @@ import java.util.List;
 public interface ArticleMapper extends BaseMapper<Article> {
 
     @Select("select * from blog_article article where article.id=#{article_id}")
-    @Results(id="articleMap", value = {
+    @Results(value = {
             @Result(id = true, property = "id", column = "id"),
             @Result(property = "source", column = "source", javaType = ArticleSourceEnum.class, typeHandler = EnumOrdinalTypeHandler.class),
             @Result(property = "tags", column = "id", javaType = List.class,
@@ -30,7 +30,19 @@ public interface ArticleMapper extends BaseMapper<Article> {
     })
     Article findById(@Param("article_id") Long articleId);
 
-//    @Select("select * from blog_article article")
-//    @ResultMap("articleMap")
-//    List<Article> findAll();
+    @Select("select id, title from blog_article a where a.id=#{article_id}")
+    Article findIdAndTitleById(@Param("article_id") Long articleId);
+
+    @Select("select * from blog_article article")
+    @Results(value = {
+            @Result(id = true, property = "id", column = "id"),
+            @Result(property = "source", column = "source", javaType = ArticleSourceEnum.class, typeHandler = EnumOrdinalTypeHandler.class),
+            @Result(property = "tags", column = "id", javaType = List.class,
+            many = @Many(select="com.hong.repository.mapper.TagMapper.findByArticleId")),
+            @Result(property = "category", column = "cate_id", javaType = Category.class,
+            one = @One(select = "com.hong.repository.mapper.CategoryMapper.findIdAndNameById"))
+    })
+    List<Article> findAll();
+
+
 }

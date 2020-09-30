@@ -27,6 +27,9 @@ public class Article extends AbstractBaseEntity implements Serializable {
     // 作者
     private String author;
 
+    /** 封面图 */
+    private String coverUrl;
+
     // 来源
     private ArticleSourceEnum source;
 

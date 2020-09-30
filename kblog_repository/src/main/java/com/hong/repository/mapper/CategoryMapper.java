@@ -20,13 +20,18 @@ public interface CategoryMapper extends BaseMapper<Category> {
     Category findIdAndNameById(@Param("id") Long id);
 
     @Select("select * from blog_category where id=#{id}")
-    @Results(id= "cateRecursion",value = {
+    @Results(value = {
+        @Result(id = true, property = "id", column = "id"),
         @Result(property = "childCategories", column = "id", javaType = List.class,
         many = @Many(select = "com.hong.repository.mapper.CategoryMapper.findAllChildByPid"))
     })
     Category findById(@Param("id") Long id);
 
     @Select("select * from blog_category where pid=#{pid}")
-    @ResultMap(value = "cateRecursion")
+    @Results(value = {
+        @Result(id = true, property = "id", column = "id"),
+        @Result(property = "childCategories", column = "id", javaType = List.class,
+        many = @Many(select = "com.hong.repository.mapper.CategoryMapper.findAllChildByPid"))
+    })
     List<Category> findAllChildByPid(@Param("pid") Long pid);
 }

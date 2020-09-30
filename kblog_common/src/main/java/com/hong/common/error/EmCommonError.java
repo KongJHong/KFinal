@@ -18,7 +18,7 @@ public enum EmCommonError implements CommonError  {
     LOGIN_TOO_MANY_ERROR(10001,"登录次数过多"),
     VERIFY_CODE_EXPIRE_ERROR(10002,"验证码已过期！"),
     SQL_SYNTAX_ERROR(3001, "SQL语法错误"),
-    UNKNOWN_ERROR(4000, "位置错误")
+    UNKNOWN_ERROR(4000, "未知错误")
     ;
 
     private Integer errCode;

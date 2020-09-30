@@ -2,7 +2,6 @@ package com.hong.services.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hong.common.domain.Payload;
-import com.hong.common.error.CommonException;
 import com.hong.common.error.EmCommonError;
 import com.hong.common.json.JsonResult;
 import com.hong.common.utils.HttpUtil;
@@ -44,9 +43,7 @@ public class JwtVerifyFilter extends BasicAuthenticationFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
 
         String header = request.getHeader("Authorization");
-        /**
-         *
-         */
+
         if (HttpUtil.isWhiteList(request.getRequestURI(), Consts.whiteList)) {
              chain.doFilter(request, response);
         }else if (header == null || !header.startsWith("Bearer ")) {

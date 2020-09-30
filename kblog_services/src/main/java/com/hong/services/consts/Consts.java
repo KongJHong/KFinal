@@ -9,5 +9,9 @@ package com.hong.services.consts;
 public class Consts {
 
     /** 前端页面，不拦截 */
-    public static final String[] whiteList = new String[]{"/test/**"};
+    public static final String[] whiteList = new String[]
+            {
+                    "/test/**", "/cate/**",
+                    "/article/**", "/tag/**"
+            };
 }

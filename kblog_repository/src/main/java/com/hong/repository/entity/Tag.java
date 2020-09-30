@@ -1,11 +1,12 @@
 package com.hong.repository.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
-import java.util.Set;
+import java.util.List;
 
 /**
  * @Author : KongJHong
@@ -16,6 +17,7 @@ import java.util.Set;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Accessors(chain = true)
+@TableName("blog_tag")
 public class Tag extends AbstractBaseEntity{
 
     /**
@@ -27,7 +29,7 @@ public class Tag extends AbstractBaseEntity{
      * 文章列表
      */
     @TableField(exist = false)
-    private Set<Article> articles;
+    private List<Article> articles;
 
 
     /**
