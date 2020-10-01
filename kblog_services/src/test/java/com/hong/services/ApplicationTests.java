@@ -1,6 +1,12 @@
 package com.hong.services;
 
-import com.hong.common.service.BaseElasticService;
+import com.hong.services.consts.Consts;
+import com.hong.services.services.BaseElasticService;
+import com.hong.services.services.IArticleService;
+import com.hong.services.services.search.ArticleTemplate;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.query.TermQueryBuilder;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -8,6 +14,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.List;
 
 /**
  * @Author : KongJHong
@@ -21,6 +29,9 @@ public class ApplicationTests {
 
     @Autowired
     private BaseElasticService elasticService;
+
+    @Autowired
+    private IArticleService articleService;
 
     @Before
     public void doBefore() {
@@ -39,6 +50,18 @@ public class ApplicationTests {
         }catch(Exception ex) {
             ex.printStackTrace();
         }
-
     }
+
+    @Test
+    public void search() {
+        SearchSourceBuilder builder = new SearchSourceBuilder();
+        TermQueryBuilder termBuilder = QueryBuilders.termQuery("content", "奥德赛");
+        builder.query(termBuilder);
+
+        List<ArticleTemplate> articles = elasticService.search(Consts.ARTICLE_INDEX, builder, ArticleTemplate.class);
+        for (ArticleTemplate articleTemplate: articles) {
+            System.out.println(articleTemplate);
+        }
+    }
+
 }

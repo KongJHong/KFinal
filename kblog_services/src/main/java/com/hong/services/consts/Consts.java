@@ -14,4 +14,6 @@ public class Consts {
                     "/test/**", "/cate/**",
                     "/article/**", "/tag/**"
             };
+
+    public static final String ARTICLE_INDEX = "blog_article";
 }

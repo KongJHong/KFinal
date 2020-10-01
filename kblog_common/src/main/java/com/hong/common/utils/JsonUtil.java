@@ -16,6 +16,12 @@ public class JsonUtil {
 
     private static final ObjectMapper mapper = new ObjectMapper();
 
+//    public static String readResourcesFile(String path) {
+//        if (path.startsWith("classpath:") && path.endsWith(".json")) {
+//            path = JsonUtil.class.getClassLoader().getResource(path.split(":")[1]).toString();
+//        }
+//    }
+
     public static String toString(Object obj) {
         if (obj == null) {
             return null;

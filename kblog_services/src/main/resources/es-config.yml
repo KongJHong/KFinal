@@ -1,0 +1,15 @@
+es:
+  host: localhost
+  port: 9200
+  token: es-token
+  charset: UTF-8
+  scheme: http
+  isHighlight: true
+  highlightTag: <span style='color:red;'>,</span>
+  client:
+    connectTimeOut: 5000
+    socketTimeOut: 5000
+  categories:
+    -
+      idxName: blog_article
+      location: es/article_index_mapping.json

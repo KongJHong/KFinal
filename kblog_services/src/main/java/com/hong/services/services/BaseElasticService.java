@@ -1,8 +1,13 @@
-package com.hong.common.service;
+package com.hong.services.services;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hong.common.domain.ElasticEntity;
+import com.hong.common.domain.ElasticMapping;
+import com.hong.common.factory.ResourceFactory;
+import com.hong.common.utils.FileUtil;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
 import org.elasticsearch.action.bulk.BulkRequest;
@@ -21,7 +26,8 @@ import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.xcontent.XContentType;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
-import org.springframework.beans.factory.annotation.Value;
+import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
@@ -40,8 +46,11 @@ import java.util.List;
  * includeDefaults: 返回是否包含默认信息
  */
 @Component
-@PropertySource("classpath:es-config.properties")
+@PropertySource(value = "classpath:es-config.yml", factory = ResourceFactory.class)
+@ConfigurationProperties(prefix = "es")
 @Slf4j
+@Getter
+@Setter
 public class BaseElasticService {
 
 
@@ -49,27 +58,46 @@ public class BaseElasticService {
 
     private final ObjectMapper objectMapper;
 
+    private final IArticleService articleService;
+
+    private final FileUtil fileUtil;
+
     // 分片数目
     private static final int NUMBER_OF_SHARDS = 3;
 
     // 备份数目
     private static final int NUMBER_OF_REPLICAS = 0;
 
-    @Value("${es.properties}")
-    private List<String> properties;
+    // 是否高亮
+    private Boolean isHighLight;
+
+    // 预加载
+    private List<ElasticMapping> categories;
+
+    // 高亮包裹标签
+    private String highLightTag;
+
+    public BaseElasticService( RestHighLevelClient restHighLevelClient,
+                               IArticleService articleService,
+                               FileUtil fileUtil,
+                               ObjectMapper objectMapper) {
+        this.restHighLevelClient = restHighLevelClient;
+        this.articleService = articleService;
+        this.objectMapper = objectMapper;
+        this.fileUtil = fileUtil;
+    }
 
     /**
      * TODO 预加载 索引
      */
     @PostConstruct
     private void preLoading() {
+        for (ElasticMapping mapping: categories) {
 
-    }
+             String content = fileUtil.readResourceFile(mapping.getLocation());
+             createIndex(mapping.getIdxName(), content);
+        }
 
-    public BaseElasticService( RestHighLevelClient restHighLevelClient,
-                               ObjectMapper objectMapper) {
-        this.restHighLevelClient = restHighLevelClient;
-        this.objectMapper = objectMapper;
     }
 
     /**
@@ -107,8 +135,8 @@ public class BaseElasticService {
      */
     public void createIndex(String idxName, String idxSQL) {
         try {
-            if (this.indexExist(idxName)) {
-                log.error("idxName={} 已经存在，idxSql={}", idxName, idxSQL);
+            if (this.isExistsIndex(idxName)) {
+                log.error("------------idxName: {} 已经存在", idxName);
                 return;
             }
 
@@ -122,6 +150,8 @@ public class BaseElasticService {
 
         }catch(IOException ex) {
             log.error("ES连接失败");
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -166,6 +196,18 @@ public class BaseElasticService {
         }
     }
 
+    public <T> List<T> highLightSearch(String idxName, HighlightBuilder builder, Class<T> c) {
+        SearchRequest request = new SearchRequest(idxName);
+        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
+        if (isHighLight) {
+            String[] tags = highLightTag.split(",");
+            builder.preTags(tags[0]);
+            builder.postTags(tags[1]);
+        }
+
+        return null;
+    }
+
     /**
      * 删除一行数据
      * @param idxName 索引
@@ -176,6 +218,7 @@ public class BaseElasticService {
         request.id(entity.getId());
         try {
             restHighLevelClient.delete(request, RequestOptions.DEFAULT);
+            log.info("ES删除数据成功 index: {}, id:{}", idxName,entity.getId());
         } catch (Exception e) {
             e.printStackTrace();
             log.error("删除doc错误, index: {}, id: {}", idxName, entity.getId());
@@ -193,6 +236,7 @@ public class BaseElasticService {
         try {
             request.source(objectMapper.writeValueAsString(entity.getData()), XContentType.JSON);
             restHighLevelClient.index(request, RequestOptions.DEFAULT);
+            log.info("ES插入数据成功 index: {}, id:{}", idxName,entity.getId());
         } catch (IOException e) {
             e.printStackTrace();
             log.error("ES添加行错误, index: {}, id: {}", idxName, entity.getId());

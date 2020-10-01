@@ -37,4 +37,10 @@ public class ArticleServiceImpl implements IArticleService {
 
         return dtos;
     }
+
+    @Override
+    public ArticleDto findById(Long articleId) {
+        Article article = articleMapper.findById(articleId);
+        return new ArticleDto(article);
+    }
 }

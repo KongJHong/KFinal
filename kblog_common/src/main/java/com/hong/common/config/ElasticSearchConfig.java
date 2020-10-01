@@ -1,5 +1,6 @@
 package com.hong.common.config;
 
+import com.hong.common.factory.ResourceFactory;
 import org.apache.http.Header;
 import org.apache.http.HttpHost;
 import org.apache.http.message.BasicHeader;
@@ -19,7 +20,7 @@ import org.springframework.context.annotation.PropertySource;
  * Description     : 7.x ES封装
  */
 @Configuration
-@PropertySource("classpath:es-config.properties")
+@PropertySource(value = "classpath:es-config.yml", factory = ResourceFactory.class)
 public class ElasticSearchConfig {
 
     @Value("${es.host}")
@@ -35,7 +36,7 @@ public class ElasticSearchConfig {
     @Value("${es.client.connectTimeOut}")
     private int connectTimeOut;
     @Value("${es.client.socketTimeOut}")
-    private int socketTimeout;
+    private int socketTimeOut;
 
     private HttpHost makeHttpHost() {
         return new HttpHost(host, port, scheme);
@@ -61,7 +62,7 @@ public class ElasticSearchConfig {
         });
 
         restClientBuilder.setRequestConfigCallback(builder ->
-                builder.setConnectTimeout(connectTimeOut).setSocketTimeout(socketTimeout));
+                builder.setConnectTimeout(connectTimeOut).setSocketTimeout(socketTimeOut));
 
         return restClientBuilder;
     }

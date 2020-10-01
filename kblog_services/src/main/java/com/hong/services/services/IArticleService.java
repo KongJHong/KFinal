@@ -13,4 +13,6 @@ import java.util.List;
 public interface IArticleService {
 
     List<ArticleDto> findAll();
+
+    ArticleDto findById(Long articleId);
 }
